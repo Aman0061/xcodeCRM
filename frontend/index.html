@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div id="editModal" class="modal" style="display:none;">
+        <div class="modal-content">
+          <h3>Редактировать студента</h3>
+          <form id="editForm">
+            <input type="text" id="edit-name" placeholder="Имя" required />
+            <input type="text" id="edit-course" placeholder="Курс" required />
+            <input type="number" id="edit-age" placeholder="Возраст" required />
+            <input type="number" id="edit-price" placeholder="Цена" required />
+            <input type="text" id="edit-phone" placeholder="Телефон" required />
+            <input type="text" id="edit-comment" placeholder="Комментарий" required />
+            <button type="submit">Сохранить</button>
+            <button type="button" onclick="closeEditModal()">Отмена</button>
+          </form>
+        </div>
+      </div>
+
+      <div id="stats" style="margin-bottom: 30px;">
+        <h3>Статистика</h3>
+        <p>Всего студентов: <span id="total-students">0</span></p>
+        <p>Сумма оплат: <span id="total-price">0</span> сом</p>
+        <p>Средний возраст: <span id="avg-age">0</span></p>
+        <p>Средняя оплата: <span id="avg-price">0</span> сом</p>
+      </div>
+      
+    <h2>Добавить студента</h2>
+    <form id="studentForm">
+    <input type="text" id="name" placeholder="Имя" required />
+    <input type="text" id="course" placeholder="Курс" required />
+    <input type="number" id="age" placeholder="Возраст" required />
+    <input type="number" id="phone" placeholder="Телефон" required />
+    <input type="text" id="comment" placeholder="Комментарий" required />
+    <input type="number" id="price" placeholder="Оплата (сом)" required />
+    <button type="submit">Добавить</button>
+    </form>
+    <hr />
+
+    <h2>Список студентов</h2>
+    <div id="students"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
