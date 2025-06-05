@@ -3,48 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Document</title>
+    <link rel="stylesheet" href="main.css">
+    <title>Xcode Dashboard</title>
 </head>
 <body>
-    <div id="editModal" class="modal" style="display:none;">
-        <div class="modal-content">
-          <h3>Редактировать студента</h3>
-          <form id="editForm">
-            <input type="text" id="edit-name" placeholder="Имя" required />
-            <input type="text" id="edit-course" placeholder="Курс" required />
-            <input type="number" id="edit-age" placeholder="Возраст" required />
-            <input type="number" id="edit-price" placeholder="Цена" required />
-            <input type="text" id="edit-phone" placeholder="Телефон" required />
-            <input type="text" id="edit-comment" placeholder="Комментарий" required />
-            <button type="submit">Сохранить</button>
-            <button type="button" onclick="closeEditModal()">Отмена</button>
-          </form>
-        </div>
-      </div>
+    <aside class="aside" id="aside">
+        <a href="#"><img src="images/side-icons/Dash-Icon.png" alt="Dashboard-icon"></a>
+        <ul class="aside-icons">
+            <li><a href="#"><img src="images/side-icons/home-icon.png" alt=""></a></li>
+            <li><a href="pages/students.html"><img src="images/side-icons/student-icon.png" alt=""></a></li>
+            <li><a href="#"><img src="images/side-icons/doc-icon.png" alt=""></a></li>
+            <li><a href="#"><img src="images/side-icons/message-icon.png" alt=""></a></li>
+            <li><a href="#"><img src="images/side-icons/up-icon.png" alt=""></a></li>
+            <li><a href="#"><img src="images/side-icons/profile-icon.png" alt=""></a></li>
+            <li><a href="#"><img src="images/side-icons/settings-icon.png" alt=""></a></li>
+        </ul>
+    </aside>
+    <div class="main-content">
+        <header class="header">
+            <div class="header-search">
+                <img src="images/side-icons/search-icon.png" alt="search-icon">
+                <input placeholder="Поиск..." type="text" name="" id="">
+            </div>
+            <p class="header-title">XCODE</p>
+            <p class="header-profile">Mukanbetuuluaman@gmail.com</p>
+        </header>
+        <main class="main">
+            <h1 class="main-title">Общая статистика</h1>
 
-      <div id="stats" style="margin-bottom: 30px;">
-        <h3>Статистика</h3>
-        <p>Всего студентов: <span id="total-students">0</span></p>
-        <p>Сумма оплат: <span id="total-price">0</span> сом</p>
-        <p>Средний возраст: <span id="avg-age">0</span></p>
-        <p>Средняя оплата: <span id="avg-price">0</span> сом</p>
-      </div>
-      
-    <h2>Добавить студента</h2>
-    <form id="studentForm">
-    <input type="text" id="name" placeholder="Имя" required />
-    <input type="text" id="course" placeholder="Курс" required />
-    <input type="number" id="age" placeholder="Возраст" required />
-    <input type="number" id="phone" placeholder="Телефон" required />
-    <input type="text" id="comment" placeholder="Комментарий" required />
-    <input type="number" id="price" placeholder="Оплата (сом)" required />
-    <button type="submit">Добавить</button>
-    </form>
-    <hr />
+            <div class="banners">
+                <div class="first-banner">
+                    <div class="banner-text">
+                        <p class="bannet-title">Общий оборот</p>
+                        <p class="banner-money"></p>
+                        <p class="banner-link">Подробнее...</p>
+                    </div>
+                    <img style="margin-top: 50px;" src="images/side-icons/money-icon.png" alt="">
+                </div>
+                <div class="first-banner second-banner">
+                    <div class="banner-text">
+                        <p class="bannet-title">Расходы</p>
+                        <p class="banner-money">$0K</p>
+                        <p class="banner-link">Подробнее...</p>
+                    </div>
+                    <img style="margin-top: 50px;" src="images/side-icons/bag-icon.png" alt="">
+                </div>
+                <div class="first-banner third-banner">
+                    <div class="banner-text">
+                        <p class="bannet-title">Прибыль</p>
+                        <p class="banner-money">$0K</p>
+                        <p class="banner-link">Подробнее...</p>
+                    </div>
+                    <img  src="images/side-icons/woman-icon.png" alt="">
+                </div>
+            </div>
 
-    <h2>Список студентов</h2>
-    <div id="students"></div>
+            <h2 class="main-title">Всего студентов: 16</h1>
+
+            <div class="total-students">
+                <div class="total-students-title">
+                    <p>Customer Details</p>
+                    <div>
+                        <img src="images/side-icons/filter-icon.svg" alt="filter">
+                        <img src="images/side-icons/download.svg" alt="">
+                    </div>
+                </div>
+                <table class="custom-table">
+                    <thead>
+                      <tr>
+                        <th>Имя</th>
+                        <th>Курс</th>
+                        <th>Дата начала</th>
+                        <th>Контракт</th>
+                        <th>Статус</th>
+                      </tr>
+                    </thead>
+                    <tbody id="studentsTableBody">
+                      
+                    </tbody>
+                  </table>                  
+            </div>
+
+        </main>
+    </div>
 
     <script src="script.js"></script>
 </body>

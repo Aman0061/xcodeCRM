@@ -1,0 +1,239 @@
+
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Cursive:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --ChineseBlack: #161717;
+    --RaisinBlack: #242424;
+    --NaplesYellow: #FAD85D;
+    --CharlestonGreen: #2B2C2C;
+    --White: #FFFFFF;
+}
+.main{
+  overflow: scroll;
+}
+body{
+    display: flex;
+    font-family: "Poppins", sans-serif;
+}
+
+ul li{
+    text-decoration: none;
+    list-style-type: none;
+}
+
+.aside-icons li a img{
+    width: 24px;
+}
+
+.aside{
+    background-color: var(--ChineseBlack);
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    width: 100px;
+    height: 100vh;
+    align-items: center;
+    padding-top: 20px;
+}
+.aside-icons{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.main-content{
+    background-color: var(--RaisinBlack);
+    width: 100%;
+    padding: 20px;
+}
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+.header-title{
+    color: white;
+    font-family: "Poppins", sans-serif !important;
+    font-size: 28px;
+}
+.header-profile{
+    color: white;
+}
+.header-search{
+    width: 291px;
+    height: 53px;
+    background-color: var(--CharlestonGreen);
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.header-search input{
+    background-color: transparent;
+    outline: none;
+    width: 80%;
+    height: 30px;
+    border: none;
+    color: var(--White);
+    font-size: 16px;
+    
+}
+
+.stats-choose{
+  height: 53px;
+  width: 150px;
+  border-radius: 20px;
+  outline: none;
+  font-size: 16px;
+  background-color: var(--CharlestonGreen);
+  border: none;
+  color: white;
+}
+
+
+.add-student-btn {
+  background-color: #facc15;
+  color: #000;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.2s;
+  margin: 20px 0;
+}
+
+.add-student-btn:hover {
+  background-color: #eab308;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: #1a1a1a;
+  padding: 30px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 400px;
+  color: #fff;
+  position: relative;
+}
+
+.modal-content h2 {
+  margin-bottom: 20px;
+  font-size: 22px;
+}
+
+.modal-content input {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  border-radius: 6px;
+  border: 1px solid #333;
+  background-color: #111;
+  color: #fff;
+}
+
+.submit-btn {
+  background-color: #facc15;
+  color: #000;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%;
+}
+
+.submit-btn:hover {
+  background-color: #eab308;
+}
+
+.close-btn {
+  position: absolute;
+  right: 16px;
+  top: 12px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #aaa;
+}
+
+/* Таблица */.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #fff;
+    font-family: 'Segoe UI', sans-serif;
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  
+  .custom-table th,
+  .custom-table td {
+    padding: 16px 20px;
+    text-align: left;
+    border-bottom: 1px solid #2e2e2e;
+  }
+  
+  .custom-table thead {
+    color: #888;
+    font-weight: bold;
+  }
+  
+  .custom-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+  
+  .status {
+    font-weight: 600;
+  }
+  
+  .status.shipped {
+    color: #ff0000;
+  }
+  
+  .status.delivered {
+    color: #F4A100;
+  }
+  
+  .status.paid {
+    color: #1E8E3E;
+  }
+  
+
+  .btn {
+    padding: 4px 8px;
+    margin: 2px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .btn-edit {
+    background-color: #3b82f6;
+    color: white;
+  }
+  
+  .btn-delete {
+    background-color: #ef4444;
+    color: white;
+  }

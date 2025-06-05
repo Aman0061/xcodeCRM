@@ -76,3 +76,49 @@ app.put('/students/:id', async (req, res) => {
     res.status(500).json({ error: 'Ошибка при обновлении студента' });
   }
 });
+
+app.get('/payments', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM payments');
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Ошибка получения оплат' });
+  }
+});
+
+app.post('/payments', async (req, res) => {
+  const { student_id, month, amount_paid, expected_amount } = req.body;
+
+  if (!student_id || !month || expected_amount == null) {
+    return res.status(400).json({ error: 'Все поля обязательны' });
+  }
+
+  try {
+    // Проверка: есть ли уже запись за этот месяц и студента
+    const existing = await pool.query(
+      'SELECT id FROM payments WHERE student_id = $1 AND month = $2',
+      [student_id, month]
+    );
+
+    if (existing.rows.length > 0) {
+      // Обновляем запись
+      const updated = await pool.query(
+        'UPDATE payments SET amount_paid = $1, expected_amount = $2 WHERE id = $3 RETURNING *',
+        [amount_paid, expected_amount, existing.rows[0].id]
+      );
+      res.json(updated.rows[0]);
+    } else {
+      // Вставляем новую
+      const result = await pool.query(
+        'INSERT INTO payments (student_id, month, amount_paid, expected_amount) VALUES ($1, $2, $3, $4) RETURNING *',
+        [student_id, month, amount_paid || 0, expected_amount]
+      );
+      res.status(201).json(result.rows[0]);
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Ошибка при сохранении оплаты' });
+  }
+});
+

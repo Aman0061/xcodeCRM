@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>XCODE CRM</title>
+</head>
+<body>
+  <aside class="aside" id="aside">
+    <a href="#"><img src="../images/side-icons/Dash-Icon.png" alt="Dashboard-icon"></a>
+    <ul class="aside-icons">
+        <li><a href="../index.html"><img src="../images/side-icons/home-icon.png" alt=""></a></li>
+        <li><a href="#"><img src="../images/side-icons/student-icon.png" alt=""></a></li>
+        <li><a href="#"><img src="../images/side-icons/doc-icon.png" alt=""></a></li>
+        <li><a href="#"><img src="../images/side-icons/message-icon.png" alt=""></a></li>
+        <li><a href="#"><img src="../images/side-icons/up-icon.png" alt=""></a></li>
+        <li><a href="#"><img src="../images/side-icons/profile-icon.png" alt=""></a></li>
+        <li><a href="#"><img src="../images/side-icons/settings-icon.png" alt=""></a></li>
+    </ul>
+</aside>
+<div class="main-content">
+    <header class="header">
+      <div style="display: flex; align-items: flex-start; gap: 20px;">
+        <div class="header-search">
+          <img src="../images/side-icons/search-icon.png" alt="search-icon">
+          <input id="searchInput"  placeholder="Поиск..." type="text" name="" id="">
+        </div>
+        <div style="margin-bottom: 20px;">
+          <select id="statusFilter" class="stats-choose" style="padding: 5px;">
+            <option value="all">Все</option>
+            <option value="paid">Оплачено</option>
+            <option value="not_paid">Не оплачено</option>
+            <option value="partial">Частично</option>
+          </select>
+        </div>
+      </div>
+
+        <p class="header-title">Студенты</p>
+        <button id="openFormBtn" class="add-student-btn">+ Добавить студента</button>
+    </header>
+    <main class="main">
+
+      <!-- ФОРМА -->
+      <div id="studentForm" class="modal">
+        <div class="modal-content">
+          <span class="close-btn" id="closeFormBtn">&times;</span>
+          <h2>Добавить студента</h2>
+          <form id="addStudentForm">
+            <input type="text" id="name" placeholder="Имя" name="name" required />
+            <input type="text" id="course" placeholder="Курс" name="course" required />
+            <input type="number" id="age" placeholder="Возраст" name="age" required />
+            <input type="text" id="phone" placeholder="Телефон" name="phone" required />
+            <input type="number" id="price" placeholder="Оплата (сом)" name="price" required />
+            <input type="text" id="comment" placeholder="Комментарий" name="comment" />
+            <button type="submit" class="submit-btn">Сохранить</button>
+          </form>
+        </div>
+      </div>
+
+
+    <!-- Редактирование студента -->
+    <div id="editModal" class="modal" style="display:none;">
+        <div class="modal-content">
+          <h3>Редактировать студента</h3>
+          <form id="editForm">
+            <input type="text" id="edit-name" placeholder="Имя" required />
+            <input type="text" id="edit-course" placeholder="Курс" required />
+            <input type="number" id="edit-age" placeholder="Возраст" required />
+            <input type="number" id="edit-price" placeholder="Цена" required />
+            <input type="text" id="edit-phone" placeholder="Телефон" required />
+            <input type="text" id="edit-comment" placeholder="Комментарий" required />
+            <button type="submit">Сохранить</button>
+            <button type="button" onclick="closeEditModal()">Отмена</button>
+          </form>
+        </div>
+      </div>
+
+      <div id="payment-stats">
+        <h3>Статистика оплат</h3>
+        <label>Выберите месяц: 
+          <input type="month" id="monthPicker" />
+        </label>
+        <div id="statsResult" style="margin-top: 15px;"></div>
+      </div>
+
+      <div id="stats" style="margin-bottom: 30px;">
+        <h3>Статистика</h3>
+        <p>Всего студентов: <span id="total-students">0</span></p>
+        <p>Сумма оплат: <span id="total-price">0</span> сом</p>
+        <p>Средний возраст: <span id="avg-age">0</span></p>
+        <p>Средняя оплата: <span id="avg-price">0</span> сом</p>
+      </div>
+
+    <!-- <h2>Добавить студента</h2>
+    <form id="studentForm">
+    <input type="text" id="name" placeholder="Имя" required />
+    <input type="text" id="course" placeholder="Курс" required />
+    <input type="number" id="age" placeholder="Возраст" required />
+    <input type="number" id="phone" placeholder="Телефон" required />
+    <input type="text" id="comment" placeholder="Комментарий" required />
+    <input type="number" id="price" placeholder="Оплата (сом)" required />
+    <button type="submit">Добавить</button>
+    </form> -->
+    <hr />
+
+    <h2>Список студентов</h2>
+    <div id="students"></div>
+    <table class="custom-table">
+      <thead>
+        <tr>
+          <th>Имя</th>
+          <th>Курс</th>
+          <th>Дата начала</th>
+          <th>Контракт</th>
+          <th>Статус</th>
+          <th>Действие</th>
+        </tr>
+      </thead>
+      <tbody id="studentsTableBody">
+        
+      </tbody>
+    </table>   
+    </main>
+</div>
+
+
+
+
+
+
+
+   
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,195 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Cursive:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --ChineseBlack: #161717;
+    --RaisinBlack: #242424;
+    --NaplesYellow: #FAD85D;
+    --CharlestonGreen: #2B2C2C;
+    --White: #FFFFFF;
+}
+
+body{
+    display: flex;
+    font-family: "Poppins", sans-serif;
+}
+
+ul li{
+    text-decoration: none;
+    list-style-type: none;
+}
+
+.aside-icons li a img{
+    width: 24px;
+}
+
+.aside{
+    background-color: var(--ChineseBlack);
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    width: 100px;
+    height: 100vh;
+    align-items: center;
+    padding-top: 20px;
+}
+.aside-icons{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.main-content{
+    background-color: var(--RaisinBlack);
+    width: 100%;
+    padding: 20px;
+}
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header-title{
+    color: white;
+    font-family: "Poppins", sans-serif !important;
+    font-size: 28px;
+}
+.header-profile{
+    color: white;
+}
+.header-search{
+    width: 291px;
+    height: 53px;
+    background-color: var(--CharlestonGreen);
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.header-search input{
+    background-color: transparent;
+    outline: none;
+    width: 80%;
+    height: 30px;
+    border: none;
+    color: var(--White);
+    font-size: 16px;
+    
+}
+
+.main-title{
+    color: white;
+    font-size: 28px;
+    font-weight: 500;
+    margin-top: 20px;
+}
+
+.banners{
+    display: flex;
+    column-gap: 40px;
+}
+
+.first-banner{
+    margin-top: 30px;
+    width: 300px;
+    height: 160px;
+    display: flex;
+    background-image: url(images/banners/Subtract.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    align-items: center;
+    justify-content: space-around;
+}
+.second-banner{
+    background-image: url(images/banners/Subtract2.png);
+}
+.third-banner{
+    background-image: url(images/banners/Subtract3.png);
+
+}
+.first-banner img{
+    width: 100px;
+}
+.banner-text{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+}
+.bannet-title{
+    font-weight: 500;
+}
+.banner-money{
+    font-size: 32px;
+    font-weight: 600;
+}
+.banner-link{
+    font-size: 14px;
+    text-decoration: underline;
+}
+.total-students{
+    background-color: var(--ChineseBlack);
+    margin-top: 30px;
+    border-radius: 20px;
+}
+.total-students-title{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+
+    padding: 20px;
+    border-radius: 20px ;
+}
+.total-students-title p {
+    color: white;
+}
+
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #fff;
+    font-family: 'Segoe UI', sans-serif;
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  
+  .custom-table th,
+  .custom-table td {
+    padding: 16px 20px;
+    text-align: left;
+    border-bottom: 1px solid #2e2e2e;
+  }
+  
+  .custom-table thead {
+    color: #888;
+    font-weight: bold;
+  }
+  
+  .custom-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+  
+  .status {
+    font-weight: 600;
+  }
+  
+  .status.shipped {
+    color: #ff0000;
+  }
+  
+  .status.delivered {
+    color: #F4A100;
+  }
+  
+  .status.paid {
+    color: #1E8E3E;
+  }
+  
