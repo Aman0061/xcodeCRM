@@ -23,16 +23,16 @@ app.get('/students', async (req, res) => {
 });
 
 app.post('/students', async (req, res) => {
-  const { name, course, age, price, phone, comment } = req.body;
+  const { name, course, age, price, phone, startDate } = req.body;
 
-  if (!name || !course || !age || !price || !phone || !comment) {
+  if (!name || !course || !age || !price || !phone || !startDate) {
     return res.status(400).json({ error: 'Все поля обязательны' });
   }
 
   try {
     const result = await pool.query(
-      'INSERT INTO students (name, course, age, price, phone, comment) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-      [name, course, age, price, phone, comment]
+      'INSERT INTO students (name, course, age, price, phone, startdate) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+      [name, course, age, price, phone, startDate]
     );
     res.status(201).json(result.rows[0]);
   } catch (err) {
@@ -40,6 +40,7 @@ app.post('/students', async (req, res) => {
     res.status(500).json({ error: 'Ошибка при добавлении студента' });
   }
 });
+
 
 app.delete('/students/:id', async (req, res) => {
   const { id } = req.params;
@@ -59,16 +60,16 @@ app.listen(PORT, () => {
 
 app.put('/students/:id', async (req, res) => {
   const { id } = req.params;
-  const { name, course, age, price, phone, comment } = req.body;
+  const { name, course, age, price, phone, startDate } = req.body;
 
-  if (!name || !course || !age || !price || !phone || !comment) {
+  if (!name || !course || !age || !price || !phone || !startDate) {
     return res.status(400).json({ error: 'Все поля обязательны' });
   }
 
   try {
     const result = await pool.query(
-      'UPDATE students SET name = $1, course = $2, age = $3, price = $4, phone = $5, comment = $6 WHERE id = $7 RETURNING *',
-      [name, course, age, price, phone, comment, id]
+      'UPDATE students SET name = $1, course = $2, age = $3, price = $4, phone = $5, startdate = $6 WHERE id = $7 RETURNING *',
+      [name, course, age, price, phone, startDate, id]
     );
     res.json(result.rows[0]);
   } catch (err) {
@@ -121,4 +122,5 @@ app.post('/payments', async (req, res) => {
     res.status(500).json({ error: 'Ошибка при сохранении оплаты' });
   }
 });
+
 

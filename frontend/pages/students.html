@@ -4,6 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+
+    <!-- Flatpickr -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+
+    <!-- Month select plugin -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/index.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/style.css" />
+
     <title>XCODE CRM</title>
 </head>
 <body>
@@ -21,7 +32,7 @@
 </aside>
 <div class="main-content">
     <header class="header">
-      <div style="display: flex; align-items: flex-start; gap: 20px;">
+      <div style="display: flex; align-items: stretch; gap: 20px;">
         <div class="header-search">
           <img src="../images/side-icons/search-icon.png" alt="search-icon">
           <input id="searchInput"  placeholder="Поиск..." type="text" name="" id="">
@@ -34,6 +45,7 @@
             <option value="partial">Частично</option>
           </select>
         </div>
+        <input type="month" id="monthPicker" />
       </div>
 
         <p class="header-title">Студенты</p>
@@ -52,7 +64,8 @@
             <input type="number" id="age" placeholder="Возраст" name="age" required />
             <input type="text" id="phone" placeholder="Телефон" name="phone" required />
             <input type="number" id="price" placeholder="Оплата (сом)" name="price" required />
-            <input type="text" id="comment" placeholder="Комментарий" name="comment" />
+            <!-- <input type="text" id="comment" placeholder="Комментарий" name="comment" /> -->
+            <input type="text" id="startDate" name="startDate" placeholder="Дата начала" required />
             <button type="submit" class="submit-btn">Сохранить</button>
           </form>
         </div>
@@ -78,19 +91,16 @@
 
       <div id="payment-stats">
         <h3>Статистика оплат</h3>
-        <label>Выберите месяц: 
-          <input type="month" id="monthPicker" />
-        </label>
         <div id="statsResult" style="margin-top: 15px;"></div>
       </div>
-
+<!-- 
       <div id="stats" style="margin-bottom: 30px;">
         <h3>Статистика</h3>
         <p>Всего студентов: <span id="total-students">0</span></p>
         <p>Сумма оплат: <span id="total-price">0</span> сом</p>
         <p>Средний возраст: <span id="avg-age">0</span></p>
         <p>Средняя оплата: <span id="avg-price">0</span> сом</p>
-      </div>
+      </div> -->
 
     <!-- <h2>Добавить студента</h2>
     <form id="studentForm">
@@ -102,25 +112,30 @@
     <input type="number" id="price" placeholder="Оплата (сом)" required />
     <button type="submit">Добавить</button>
     </form> -->
-    <hr />
-
-    <h2>Список студентов</h2>
-    <div id="students"></div>
-    <table class="custom-table">
-      <thead>
-        <tr>
-          <th>Имя</th>
-          <th>Курс</th>
-          <th>Дата начала</th>
-          <th>Контракт</th>
-          <th>Статус</th>
-          <th>Действие</th>
-        </tr>
-      </thead>
-      <tbody id="studentsTableBody">
-        
-      </tbody>
-    </table>   
+    <div class="total-students">
+      <div class="total-students-title">
+        <p>Список студентов</p>
+        <div>
+            <img src="../images/side-icons/filter-icon.svg" alt="filter">
+            <img src="../images/side-icons/download.svg" id="downloadExcel" alt="">
+        </div>
+    </div>
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th>Имя</th>
+            <th>Курс</th>
+            <th>Дата начала</th>
+            <th>Контракт</th>
+            <th>Статус</th>
+            <th>Действие</th>
+          </tr>
+        </thead>
+        <tbody id="studentsTableBody">
+          
+        </tbody>
+      </table>   
+    </div>
     </main>
 </div>
 

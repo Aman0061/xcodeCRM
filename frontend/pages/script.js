@@ -2,6 +2,8 @@
 let editingStudentId = null;
 let allStudents = [];
 let currentPayments = new Map();
+let selectedMonth = new Date().toISOString().slice(0, 7);
+
 
 // === LOAD STUDENTS AND PAYMENTS ===
 async function loadAndRenderStudents() {
@@ -12,16 +14,19 @@ async function loadAndRenderStudents() {
 
   allStudents = await studentsRes.json();
   const payments = await paymentsRes.json();
-  const currentMonth = new Date().toISOString().slice(0, 7);
 
+  const currentMonth = selectedMonth;
   currentPayments = new Map();
   payments.filter(p => p.month === currentMonth).forEach(p => {
     currentPayments.set(p.student_id, p.amount_paid);
   });
 
   renderStudents();
-  renderStats(allStudents);
+  if (document.getElementById('total-students')) {
+    renderStats(allStudents);
+  }
 }
+
 
 // === RENDER STUDENTS WITH FILTERING ===
 function renderStudents() {
@@ -29,6 +34,7 @@ function renderStudents() {
   tbody.innerHTML = '';
 
   const selectedStatus = document.getElementById('statusFilter')?.value || 'all';
+  const searchQuery = document.getElementById('searchInput')?.value.toLowerCase() || '';
 
   allStudents.forEach(student => {
     const paid = currentPayments.get(student.id) || 0;
@@ -38,22 +44,25 @@ function renderStudents() {
     if (paid === student.price) status = 'paid';
     else if (paid > 0) status = 'partial';
 
-    // Пропускаем, если не соответствует фильтру
     if (selectedStatus !== 'all' && selectedStatus !== status) return;
+    if (!student.name.toLowerCase().includes(searchQuery)) return;
 
     const row = document.createElement('tr');
+    row.id = `student-${student.id}`;
     row.innerHTML = `
       <td>${student.name}</td>
       <td>${student.course}</td>
-      <td>${student.startDate || '-'}</td>
+      <td>${student.startDate ? student.startDate.slice(0, 10) : '-'}</td>
       <td>${student.price} сом</td>
       <td>
-        <select onchange="handlePaymentStatusChange(${student.id}, this.value, ${student.price})">
-          <option value="not_paid" ${status === 'not_paid' ? 'selected' : ''}>Не оплачено</option>
-          <option value="paid" ${status === 'paid' ? 'selected' : ''}>Оплачено</option>
-          <option value="partial" ${status === 'partial' ? 'selected' : ''}>Частично</option>
-        </select>
-        ${status === 'partial' ? `<div style="font-size: 12px;">Оплачено: ${paid} сом<br>Долг: ${debt} сом</div>` : ''}
+        <div class="status-box ${status}">
+          <select class="status-select ${status}" onchange="handlePaymentStatusChange(${student.id}, this.value, ${student.price})">
+            <option value="not_paid" ${status === 'not_paid' ? 'selected' : ''}>Не оплачено</option>
+            <option value="paid" ${status === 'paid' ? 'selected' : ''}>Оплачено</option>
+            <option value="partial" ${status === 'partial' ? 'selected' : ''}>Частично</option>
+          </select>
+          ${status === 'partial' ? `<div class="status-info">💸 Оплачено: ${paid} сом<br>❌ Долг: ${debt} сом</div>` : ''}
+        </div>
       </td>
       <td>
         <button onclick="editStudent(${student.id})" class="btn btn-edit">Редактировать</button>
@@ -93,7 +102,7 @@ function renderStudent(student, paid = 0) {
         <strong>Возраст:</strong> ${student.age}<br>
         <strong>Телефон:</strong> ${student.phone}<br>
         <strong>Цена:</strong> ${student.price}<br>
-        <strong>Комментарий:</strong> ${student.comment}<br>
+        // <strong>Комментарий:</strong> ${student.comment}<br>
         <div id="debt-${student.id}" style="margin-top: 5px;">${debtInfo}</div>
       </div>
       <div style="text-align: right;">
@@ -112,14 +121,10 @@ function renderStudent(student, paid = 0) {
 
 // === HANDLE PAYMENT STATUS ===
 function handlePaymentStatusChange(studentId, status, price) {
-  const debtBlock = document.getElementById(`debt-${studentId}`);
-
   if (status === 'paid') {
     sendPayment(studentId, price, price);
-    debtBlock.innerHTML = `<span style="color: green;">✅ Оплачено</span>`;
   } else if (status === 'not_paid') {
     sendPayment(studentId, 0, price);
-    debtBlock.innerHTML = `<span style="color: red;">❌ Не оплачено<br>Долг: ${price} сом</span>`;
   } else if (status === 'partial') {
     const amount = prompt("Введите сумму оплаты:");
     const paid = parseInt(amount);
@@ -129,15 +134,14 @@ function handlePaymentStatusChange(studentId, status, price) {
       return;
     }
 
-    const debt = price - paid;
     sendPayment(studentId, paid, price);
-    debtBlock.innerHTML = `<span style="color: orange;">🟡 Частично: ${paid} сом<br>Долг: ${debt} сом</span>`;
   }
 }
 
 
+
 async function sendPayment(studentId, amountPaid, expectedAmount) {
-  const month = new Date().toISOString().slice(0, 7);
+  const month = selectedMonth; // ✅ Используем выбранный месяц
   await fetch('http://localhost:3000/payments', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -164,7 +168,7 @@ async function editStudent(id) {
   document.getElementById('edit-age').value = student.age;
   document.getElementById('edit-price').value = student.price;
   document.getElementById('edit-phone').value = student.phone;
-  document.getElementById('edit-comment').value = student.comment;
+  // document.getElementById('edit-comment').value = student.comment;
 
   document.getElementById('editModal').style.display = 'flex';
 }
@@ -183,7 +187,7 @@ document.getElementById('editForm').addEventListener('submit', async (e) => {
     age: parseInt(document.getElementById('edit-age').value),
     price: parseInt(document.getElementById('edit-price').value),
     phone: document.getElementById('edit-phone').value,
-    comment: document.getElementById('edit-comment').value
+    // comment: document.getElementById('edit-comment').value
   };
 
   await fetch(`http://localhost:3000/students/${editingStudentId}`, {
@@ -209,8 +213,10 @@ function renderStats(students) {
   document.getElementById('avg-price').textContent = avgPrice;
 }
 
-document.getElementById('monthPicker')?.addEventListener('change', (e) => {
-  renderPaymentStats(e.target.value);
+document.getElementById('monthPicker')?.addEventListener('change', async (e) => {
+  selectedMonth = e.target.value;
+  await renderPaymentStats(selectedMonth);
+  await loadAndRenderStudents(); // Обновляет таблицу студентов
 });
 
 async function renderPaymentStats(month) {
@@ -272,7 +278,7 @@ document.getElementById('addStudentForm').addEventListener('submit', async (e) =
   const student = Object.fromEntries(formData.entries());
   student.age = parseInt(student.age);
   student.price = parseInt(student.price);
-
+  student.startDate = document.getElementById('startDate').value;
   const res = await fetch('http://localhost:3000/students', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -288,4 +294,67 @@ document.getElementById('addStudentForm').addEventListener('submit', async (e) =
   }
 });
 
+flatpickr("#startDate", {
+  dateFormat: "Y-m-d",
+  altInput: true,
+  altFormat: "F j, Y"
+});
 
+document.getElementById('downloadExcel').addEventListener('click', () => {
+  const selectedStatus = document.getElementById('statusFilter')?.value || 'all';
+
+  const filteredStudents = allStudents.filter(student => {
+    const paid = currentPayments.get(student.id) || 0;
+    const status =
+      paid === student.price ? 'paid' :
+      paid > 0 ? 'partial' : 'not_paid';
+    return selectedStatus === 'all' || selectedStatus === status;
+  });
+
+  const month = document.getElementById('monthPicker').value; // "2025-06"
+  const formattedMonth = new Date(month + "-01").toLocaleDateString('ru-RU', { year: 'numeric', month: 'long' });
+
+  // Первая строка и заголовки
+  const rows = [
+    [`Выгрузка за дату: ${formattedMonth}`],
+    ["Имя", "Курс", "Дата начала", "Стоимость", "Оплачено", "Долг", "Статус"]
+  ];
+
+  // Данные студентов
+  filteredStudents.forEach(student => {
+    const paid = currentPayments.get(student.id) || 0;
+    const debt = student.price - paid;
+    let status = 'Не оплачено';
+    if (paid === student.price) status = 'Оплачено';
+    else if (paid > 0) status = 'Частично';
+
+    rows.push([
+      student.name,
+      student.course,
+      student.startdate?.slice(0, 10) || '-',
+      student.price,
+      paid,
+      debt,
+      status
+    ]);
+  });
+
+  const worksheet = XLSX.utils.aoa_to_sheet(rows);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Студенты');
+
+  XLSX.writeFile(workbook, `students-${month}.xlsx`);
+});
+
+
+
+flatpickr("#monthPicker", {
+  plugins: [
+    new monthSelectPlugin({
+      shorthand: true, // Показывает краткие названия месяцев
+      dateFormat: "Y-m", // Формат как у <input type="month">
+      altFormat: "F Y", // Как будет отображаться
+      theme: "dark" // Можно light или dark
+    })
+  ]
+});
