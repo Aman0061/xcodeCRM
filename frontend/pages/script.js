@@ -3,13 +3,15 @@ let editingStudentId = null;
 let allStudents = [];
 let currentPayments = new Map();
 let selectedMonth = new Date().toISOString().slice(0, 7);
+const BASE_URL = 'https://xcodecrm-production.up.railway.app';
+
 
 
 // === LOAD STUDENTS AND PAYMENTS ===
 async function loadAndRenderStudents() {
   const [studentsRes, paymentsRes] = await Promise.all([
-    fetch('http://localhost:3000/students'),
-    fetch('http://localhost:3000/payments')
+    fetch(`${BASE_URL}/students`),
+    fetch(`${BASE_URL}/payments`),
   ]);
 
   allStudents = await studentsRes.json();
@@ -141,11 +143,16 @@ function handlePaymentStatusChange(studentId, status, price) {
 
 
 async function sendPayment(studentId, amountPaid, expectedAmount) {
-  const month = selectedMonth; // ✅ Используем выбранный месяц
-  await fetch('http://localhost:3000/payments', {
+  const month = selectedMonth;
+  await fetch(`${BASE_URL}/payments`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ student_id: studentId, month, amount_paid: amountPaid, expected_amount: expectedAmount })
+    body: JSON.stringify({
+      student_id: studentId,
+      month,
+      amount_paid: amountPaid,
+      expected_amount: expectedAmount
+    })
   });
   loadAndRenderStudents();
 }
@@ -153,13 +160,13 @@ async function sendPayment(studentId, amountPaid, expectedAmount) {
 // === DELETION ===
 async function deleteStudent(id) {
   if (!confirm('Удалить этого студента?')) return;
-  const res = await fetch(`http://localhost:3000/students/${id}`, { method: 'DELETE' });
+  const res = await fetch(`${BASE_URL}/students/${id}`, { method: 'DELETE' });
   if (res.ok) document.getElementById(`student-${id}`).remove();
 }
 
 // === EDIT ===
 async function editStudent(id) {
-  const res = await fetch('http://localhost:3000/students');
+  const res = await fetch(`${BASE_URL}/students`);
   const student = (await res.json()).find(s => s.id === id);
 
   editingStudentId = id;
@@ -172,6 +179,7 @@ async function editStudent(id) {
 
   document.getElementById('editModal').style.display = 'flex';
 }
+
 
 function closeEditModal() {
   document.getElementById('editModal').style.display = 'none';
@@ -190,7 +198,7 @@ document.getElementById('editForm').addEventListener('submit', async (e) => {
     // comment: document.getElementById('edit-comment').value
   };
 
-  await fetch(`http://localhost:3000/students/${editingStudentId}`, {
+  await fetch(`${BASE_URL}/students/${editingStudentId}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(updatedStudent)
@@ -199,6 +207,7 @@ document.getElementById('editForm').addEventListener('submit', async (e) => {
   closeEditModal();
   loadAndRenderStudents();
 });
+
 
 // === STATS ===
 function renderStats(students) {
@@ -221,8 +230,8 @@ document.getElementById('monthPicker')?.addEventListener('change', async (e) => 
 
 async function renderPaymentStats(month) {
   const [paymentsRes, studentsRes] = await Promise.all([
-    fetch('http://localhost:3000/payments'),
-    fetch('http://localhost:3000/students')
+    fetch(`${BASE_URL}/payments`),
+    fetch(`${BASE_URL}/students`)
   ]);
 
   const payments = await paymentsRes.json();
@@ -248,6 +257,7 @@ async function renderPaymentStats(month) {
     <p>❌ Недоплата: <strong>${unpaid} сом</strong></p>
   `;
 }
+
 
 window.addEventListener('DOMContentLoaded', () => {
   const now = new Date();
@@ -279,7 +289,8 @@ document.getElementById('addStudentForm').addEventListener('submit', async (e) =
   student.age = parseInt(student.age);
   student.price = parseInt(student.price);
   student.startDate = document.getElementById('startDate').value;
-  const res = await fetch('http://localhost:3000/students', {
+
+  const res = await fetch(`${BASE_URL}/students`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(student)
